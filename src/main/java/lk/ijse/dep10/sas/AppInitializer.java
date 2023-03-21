@@ -1,6 +1,8 @@
 package lk.ijse.dep10.sas;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lk.ijse.dep10.sas.DB.DBConnection;
 
@@ -34,8 +36,11 @@ public class AppInitializer extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         generateSchemaIfNotExist();
+        primaryStage.setTitle("Student Form");
+        primaryStage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/studentView.fxml")).load()));
+        primaryStage.show();
 
     }
     private void generateSchemaIfNotExist(){
@@ -49,7 +54,7 @@ public class AppInitializer extends Application {
                 tableNameList.add(rst.getString(1));
             }
 
-            boolean tableExists=tableNameList.containsAll(Set.of("Attendence","Picture","Student","User"));
+            boolean tableExists=tableNameList.containsAll(Set.of("Attendance","Picture","Student","User"));
 
             if (!tableExists) {
                 stm.execute(readDBScript());
